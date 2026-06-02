@@ -13,6 +13,12 @@ const adminSections = [
     metaKey: "profile.accounts",
   },
   {
+    href: "/profile/admin/parents",
+    titleKey: "profile.parents",
+    descriptionKey: "profile.parentsDescription",
+    metaKey: "profile.accounts",
+  },
+  {
     href: "/profile/admin/students",
     titleKey: "profile.studentsAndGroups",
     descriptionKey: "profile.studentsGroupsDescription",
@@ -31,6 +37,12 @@ const adminSections = [
     metaKey: "profile.streams",
   },
   {
+    href: "/profile/admin/teachers",
+    titleKey: "profile.teachers",
+    descriptionKey: "profile.teachersDescription",
+    metaKey: "profile.teachers",
+  },
+  {
     href: "/profile/admin/lessons",
     titleKey: "profile.lessons",
     descriptionKey: "profile.lessonsDescription",
@@ -41,6 +53,24 @@ const adminSections = [
     titleKey: "profile.attendanceMarker",
     descriptionKey: "profile.attendanceMarkerDescription",
     metaKey: "profile.attendance",
+  },
+  {
+    href: "/profile/admin/subscriptions",
+    titleKey: "profile.subscriptions",
+    descriptionKey: "profile.subscriptionsDescription",
+    metaKey: "profile.subscriptions",
+  },
+  {
+    href: "/profile/admin/reports",
+    titleKey: "profile.reports",
+    descriptionKey: "profile.reportsDescription",
+    metaKey: "profile.reports",
+  },
+  {
+    href: "/profile/admin/settings",
+    titleKey: "profile.settings",
+    descriptionKey: "profile.settingsDescription",
+    metaKey: "profile.settings",
   },
 ];
 

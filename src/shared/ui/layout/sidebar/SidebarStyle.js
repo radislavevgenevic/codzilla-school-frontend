@@ -12,6 +12,7 @@ export const style = {
         top: "90px",
         display: "flex",
         flexDirection: "column",
+        overflow: "hidden",
     },
     title: {
         fontSize: "20px",

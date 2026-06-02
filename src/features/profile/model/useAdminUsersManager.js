@@ -13,9 +13,12 @@ const emptyForm = {
   is_active: true,
 };
 
-export function useAdminUsersManager(enabled) {
+export function useAdminUsersManager(enabled, options = {}) {
   const [users, setUsers] = useState([]);
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState({
+    ...emptyForm,
+    role: options.lockedRole || emptyForm.role,
+  });
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
@@ -27,7 +30,12 @@ export function useAdminUsersManager(enabled) {
 
     try {
       const payload = await profileApi.getAdminUsers();
-      setUsers(getCollectionData(payload));
+      const nextUsers = getCollectionData(payload);
+      setUsers(
+        options.roleFilter
+          ? nextUsers.filter((user) => user.role === options.roleFilter)
+          : nextUsers,
+      );
     } catch (requestError) {
       setError(requestError.message);
     } finally {
@@ -45,14 +53,17 @@ export function useAdminUsersManager(enabled) {
     return () => {
       window.clearTimeout(timeoutId);
     };
-  }, [enabled]);
+  }, [enabled, options.roleFilter]);
 
   const setField = (name, value) => {
     setForm((current) => ({ ...current, [name]: value }));
   };
 
   const resetForm = () => {
-    setForm(emptyForm);
+    setForm({
+      ...emptyForm,
+      role: options.lockedRole || emptyForm.role,
+    });
     setMessage("");
     setError("");
   };
@@ -65,7 +76,7 @@ export function useAdminUsersManager(enabled) {
       name: user.name || user.full_name || "",
       email: user.email || "",
       phone: user.phone || "",
-      role: user.role || "parent",
+      role: options.lockedRole || user.role || "parent",
       password: "",
       is_active: user.is_active !== false,
     });
@@ -76,7 +87,7 @@ export function useAdminUsersManager(enabled) {
       name: form.name,
       email: form.email,
       phone: form.phone || null,
-      role: form.role,
+      role: options.lockedRole || form.role,
       is_active: Boolean(form.is_active),
     };
 

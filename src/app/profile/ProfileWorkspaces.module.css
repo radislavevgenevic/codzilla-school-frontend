@@ -1,0 +1,300 @@
+.page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header,
+.panel,
+.status,
+.card {
+  border: 1px solid #c1c6d5;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.header,
+.panel,
+.status {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.header span,
+.panelHeader span,
+.card span,
+.metric span,
+.statCard span {
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.header h1,
+.panelHeader h2 {
+  color: var(--secondary);
+  line-height: 1.2;
+}
+
+.header h1 {
+  margin-top: 6px;
+  font-size: 32px;
+}
+
+.header p {
+  max-width: 760px;
+  margin-top: 10px;
+  color: #586edf;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panelHeader,
+.row,
+.actions,
+.tabs,
+.metrics {
+  display: flex;
+  gap: 16px;
+}
+
+.panelHeader,
+.row {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--secondary);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.checkboxLabel {
+  min-height: 44px;
+  align-items: center;
+  flex-direction: row !important;
+}
+
+.checkboxLabel input {
+  width: 18px;
+  height: 18px;
+}
+
+.wide {
+  grid-column: span 2;
+}
+
+.button,
+.secondaryButton,
+.dangerButton,
+.tabButton {
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 10px 14px;
+}
+
+.button,
+.tabButtonActive {
+  background: var(--blue);
+  color: #fff;
+}
+
+.secondaryButton,
+.tabButton {
+  background: rgba(0, 170, 255, 0.1);
+  color: var(--secondary);
+}
+
+.dangerButton {
+  background: #ff48f2;
+  color: #fff;
+}
+
+.button:disabled,
+.secondaryButton:disabled,
+.dangerButton:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.message,
+.error,
+.empty,
+.status {
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-weight: 700;
+}
+
+.message {
+  background: rgba(0, 170, 255, 0.1);
+  color: var(--secondary);
+}
+
+.error {
+  background: rgba(234, 51, 35, 0.1);
+  color: #ea3323;
+}
+
+.empty,
+.status {
+  background: rgba(0, 170, 255, 0.08);
+  color: #586edf;
+}
+
+.list,
+.grid {
+  display: grid;
+  gap: 12px;
+}
+
+.grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.row {
+  border-top: 1px solid rgba(193, 198, 213, 0.65);
+  padding-top: 12px;
+}
+
+.row strong,
+.card strong,
+.metric strong,
+.statCard strong {
+  color: #171717;
+}
+
+.row strong,
+.card strong {
+  display: block;
+}
+
+.row span,
+.card p,
+.metric p {
+  color: #586edf;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.card {
+  min-height: 150px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.meta span {
+  border-radius: 8px;
+  background: rgba(0, 170, 255, 0.08);
+  color: #586edf;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 8px;
+}
+
+.metrics {
+  flex-wrap: wrap;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.metric {
+  min-width: 180px;
+  flex: 1 1 0;
+  border: 1px solid rgba(193, 198, 213, 0.8);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.metric strong,
+.statCard strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 26px;
+}
+
+.statCard {
+  min-height: 112px;
+  border: 1px solid rgba(193, 198, 213, 0.8);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.tabs {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 980px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .wide {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .header,
+  .panelHeader,
+  .row,
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}

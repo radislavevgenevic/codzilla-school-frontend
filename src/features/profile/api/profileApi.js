@@ -11,6 +11,10 @@ export const PROFILE_ENDPOINTS = {
   adminStudents: "admin/students?per_page=100",
   adminUsers: "admin/users?per_page=100",
   adminLessons: "admin/lessons?per_page=100",
+  adminTeachers: "admin/teachers",
+  adminSubscriptions: "admin/subscriptions?per_page=100",
+  adminNotificationSettings: "admin/notification-settings",
+  parentSubscriptions: "parent/subscriptions",
   parentChildren: "parent/children",
 };
 
@@ -116,6 +120,60 @@ export const profileApi = {
       method: "DELETE",
     }),
   getAdminLessons: () => profileRequest(PROFILE_ENDPOINTS.adminLessons),
+  getAdminTeachers: () => profileRequest(PROFILE_ENDPOINTS.adminTeachers),
+  getAdminTeacher: (teacherId) => profileRequest(`admin/teachers/${teacherId}`),
+  createAdminTeacher: (payload) =>
+    profileRequest("admin/teachers", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  updateAdminTeacher: (teacherId, payload) =>
+    profileRequest(`admin/teachers/${teacherId}`, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }),
+  deleteAdminTeacher: (teacherId) =>
+    profileRequest(`admin/teachers/${teacherId}`, {
+      method: "DELETE",
+    }),
+  assignAdminTeacherCourses: (teacherId, courseIds) =>
+    profileRequest(`admin/teachers/${teacherId}/assign-courses`, {
+      method: "POST",
+      body: JSON.stringify({ course_ids: courseIds }),
+    }),
+  unassignAdminTeacherCourse: (teacherId, courseId) =>
+    profileRequest(`admin/teachers/${teacherId}/unassign-course`, {
+      method: "POST",
+      body: JSON.stringify({ course_id: courseId }),
+    }),
+  getAdminSubscriptions: () =>
+    profileRequest(PROFILE_ENDPOINTS.adminSubscriptions),
+  createAdminSubscription: (payload) =>
+    profileRequest("admin/subscriptions", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  updateAdminSubscription: (subscriptionId, payload) =>
+    profileRequest(`admin/subscriptions/${subscriptionId}`, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }),
+  deleteAdminSubscription: (subscriptionId) =>
+    profileRequest(`admin/subscriptions/${subscriptionId}`, {
+      method: "DELETE",
+    }),
+  extendAdminSubscription: (subscriptionId, payload) =>
+    profileRequest(`admin/subscriptions/${subscriptionId}/extend`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  getAdminNotificationSettings: () =>
+    profileRequest(PROFILE_ENDPOINTS.adminNotificationSettings),
+  updateAdminNotificationSettings: (payload) =>
+    profileRequest(PROFILE_ENDPOINTS.adminNotificationSettings, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }),
   createAdminLesson: (payload) =>
     profileRequest("admin/lessons", {
       method: "POST",
@@ -151,6 +209,8 @@ export const profileApi = {
       body: JSON.stringify({ marks }),
     }),
   getParentChildren: () => profileRequest(PROFILE_ENDPOINTS.parentChildren),
+  getParentSubscriptions: () =>
+    profileRequest(PROFILE_ENDPOINTS.parentSubscriptions),
   getParentChildAttendance: (studentId) =>
     profileRequest(`parent/children/${studentId}/attendance`),
 };

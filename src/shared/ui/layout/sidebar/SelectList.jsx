@@ -45,6 +45,46 @@ const menuSections = [
         alt: "students",
         roles: ["admin", "parent"],
       },
+      {
+        href: "/profile/subscriptions",
+        labelKey: "profile.subscriptions",
+        icon: "/icons/profile/sidebar/calendar.svg",
+        alt: "subscriptions",
+        roles: ["parent"],
+      },
+    ],
+  },
+  {
+    titleKey: "profile.sectionTeacher",
+    items: [
+      {
+        href: "/profile/teacher/courses",
+        labelKey: "profile.myCourses",
+        icon: "/icons/profile/sidebar/school.svg",
+        alt: "my courses",
+        roles: ["teacher"],
+      },
+      {
+        href: "/profile/teacher/students",
+        labelKey: "profile.myStudents",
+        icon: "/icons/profile/sidebar/students.svg",
+        alt: "my students",
+        roles: ["teacher"],
+      },
+      {
+        href: "/profile/teacher/schedule",
+        labelKey: "profile.mySchedule",
+        icon: "/icons/profile/sidebar/calendar.svg",
+        alt: "my schedule",
+        roles: ["teacher"],
+      },
+      {
+        href: "/profile/teacher/salary",
+        labelKey: "profile.mySalary",
+        icon: "/icons/profile/sidebar/dashboard.svg",
+        alt: "my salary",
+        roles: ["teacher"],
+      },
     ],
   },
   {
@@ -65,6 +105,13 @@ const menuSections = [
         roles: ["admin"],
       },
       {
+        href: "/profile/admin/parents",
+        labelKey: "profile.parents",
+        icon: "/icons/profile/sidebar/students.svg",
+        alt: "parents",
+        roles: ["admin"],
+      },
+      {
         href: "/profile/admin/students",
         labelKey: "profile.studentsAndGroups",
         icon: "/icons/profile/sidebar/students.svg",
@@ -72,10 +119,24 @@ const menuSections = [
         roles: ["admin"],
       },
       {
+        href: "/profile/admin/teachers",
+        labelKey: "profile.teachers",
+        icon: "/icons/profile/sidebar/students.svg",
+        alt: "admin teachers",
+        roles: ["admin"],
+      },
+      {
         href: "/profile/admin/courses",
         labelKey: "nav.courses",
         icon: "/icons/profile/sidebar/school.svg",
         alt: "admin courses",
+        roles: ["admin"],
+      },
+      {
+        href: "/profile/admin/groups",
+        labelKey: "profile.groups",
+        icon: "/icons/profile/sidebar/students.svg",
+        alt: "groups",
         roles: ["admin"],
       },
       {
@@ -90,6 +151,27 @@ const menuSections = [
         labelKey: "profile.attendanceMarker",
         icon: "/icons/profile/sidebar/calendar.svg",
         alt: "attendance marker",
+        roles: ["admin"],
+      },
+      {
+        href: "/profile/admin/subscriptions",
+        labelKey: "profile.subscriptions",
+        icon: "/icons/profile/sidebar/calendar.svg",
+        alt: "admin subscriptions",
+        roles: ["admin"],
+      },
+      {
+        href: "/profile/admin/reports",
+        labelKey: "profile.reports",
+        icon: "/icons/profile/sidebar/dashboard.svg",
+        alt: "reports",
+        roles: ["admin"],
+      },
+      {
+        href: "/profile/admin/settings",
+        labelKey: "profile.settings",
+        icon: "/icons/profile/sidebar/dashboard.svg",
+        alt: "settings",
         roles: ["admin"],
       },
     ],
@@ -130,6 +212,8 @@ export default function SelectList() {
       sx={{
         gap: "14px",
         height: "100%",
+        overflowY: "auto",
+        paddingRight: "4px",
         display: "flex",
         flexDirection: "column",
 

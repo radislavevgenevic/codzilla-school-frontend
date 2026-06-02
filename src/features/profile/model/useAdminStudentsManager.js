@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getCollectionData, profileApi } from "../api/profileApi";
 
 const emptyForm = {
+  id: null,
   full_name: "",
   age: "",
   gender: "",
@@ -14,6 +15,7 @@ const emptyForm = {
 };
 
 export function useAdminStudentsManager(enabled, onCreated) {
+  const [students, setStudents] = useState([]);
   const [parents, setParents] = useState([]);
   const [courses, setCourses] = useState([]);
   const [groups, setGroups] = useState([]);
@@ -28,24 +30,28 @@ export function useAdminStudentsManager(enabled, onCreated) {
     setError("");
 
     try {
-      const [usersPayload, coursesPayload, groupsPayload] = await Promise.all([
-        profileApi.getAdminUsers(),
-        profileApi.getAdminCourses(),
-        profileApi.getAdminGroups(),
-      ]);
+      const [studentsPayload, usersPayload, coursesPayload, groupsPayload] =
+        await Promise.all([
+          profileApi.getAdminStudents(),
+          profileApi.getAdminUsers(),
+          profileApi.getAdminCourses(),
+          profileApi.getAdminGroups(),
+        ]);
       const nextParents = getCollectionData(usersPayload).filter(
         (user) => user.role === "parent",
       );
       const nextCourses = getCollectionData(coursesPayload);
       const nextGroups = getCollectionData(groupsPayload);
 
+      setStudents(getCollectionData(studentsPayload));
       setParents(nextParents);
       setCourses(nextCourses);
       setGroups(nextGroups);
       setForm((current) => ({
         ...current,
         parent_id: current.parent_id || String(nextParents[0]?.id || ""),
-        current_course_id: current.current_course_id || String(nextCourses[0]?.id || ""),
+        current_course_id:
+          current.current_course_id || String(nextCourses[0]?.id || ""),
         group_id: current.group_id || String(nextGroups[0]?.id || ""),
       }));
     } catch (requestError) {
@@ -96,6 +102,47 @@ export function useAdminStudentsManager(enabled, onCreated) {
     setError("");
   };
 
+  const getStudentGroupId = (student) => {
+    const group =
+      student?.current_group ||
+      student?.groups?.find?.((item) => item?.pivot?.status === "active") ||
+      student?.groups?.[0];
+
+    return group?.id ? String(group.id) : "";
+  };
+
+  const editStudent = (student) => {
+    setMessage("");
+    setError("");
+    setForm({
+      id: student.id,
+      full_name: student.full_name || "",
+      age: student.age || "",
+      gender: student.gender || "",
+      status: student.status || "active",
+      parent_id: String(student.parent_id || student.parent?.id || parents[0]?.id || ""),
+      current_course_id: String(
+        student.current_course_id ||
+          student.current_course?.id ||
+          student.current_group?.course_id ||
+          courses[0]?.id ||
+          "",
+      ),
+      group_id: getStudentGroupId(student),
+    });
+  };
+
+  const getPayload = () => ({
+    full_name: form.full_name,
+    age: form.age ? Number(form.age) : null,
+    gender: form.gender || null,
+    status: form.status,
+    parent_id: Number(form.parent_id),
+    current_course_id: form.current_course_id
+      ? Number(form.current_course_id)
+      : null,
+  });
+
   const saveStudent = async (event) => {
     event.preventDefault();
     setSaving(true);
@@ -103,21 +150,49 @@ export function useAdminStudentsManager(enabled, onCreated) {
     setError("");
 
     try {
-      await profileApi.createAdminStudent({
-        full_name: form.full_name,
-        age: form.age ? Number(form.age) : null,
-        gender: form.gender || null,
-        status: form.status,
-        parent_id: Number(form.parent_id),
-        current_course_id: form.current_course_id
-          ? Number(form.current_course_id)
-          : null,
-        group_id: form.group_id ? Number(form.group_id) : null,
-      });
+      if (form.id) {
+        const previousStudent = students.find((student) => student.id === form.id);
+        const previousGroupId = getStudentGroupId(previousStudent);
+        const nextGroupId = form.group_id ? String(form.group_id) : "";
 
-      setMessage("Ученик создан и добавлен в группу");
+        await profileApi.updateAdminStudent(form.id, getPayload());
+
+        if (previousGroupId && previousGroupId !== nextGroupId) {
+          await profileApi.removeStudentFromAdminGroup(previousGroupId, form.id);
+        }
+
+        if (nextGroupId && previousGroupId !== nextGroupId) {
+          await profileApi.addStudentToAdminGroup(nextGroupId, form.id);
+        }
+
+        setMessage("Ученик обновлен");
+      } else {
+        await profileApi.createAdminStudent({
+          ...getPayload(),
+          group_id: form.group_id ? Number(form.group_id) : null,
+        });
+        setMessage("Ученик создан и добавлен в группу");
+      }
+
       resetForm();
+      await loadData();
       await onCreated?.();
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const deleteStudent = async (studentId) => {
+    setSaving(true);
+    setMessage("");
+    setError("");
+
+    try {
+      await profileApi.deleteAdminStudent(studentId);
+      setMessage("Ученик удален");
+      await loadData();
     } catch (requestError) {
       setError(requestError.message);
     } finally {
@@ -143,6 +218,7 @@ export function useAdminStudentsManager(enabled, onCreated) {
   );
 
   return {
+    students,
     form,
     loading,
     saving,
@@ -153,6 +229,8 @@ export function useAdminStudentsManager(enabled, onCreated) {
     groupOptions,
     setField,
     resetForm,
+    editStudent,
     saveStudent,
+    deleteStudent,
   };
 }

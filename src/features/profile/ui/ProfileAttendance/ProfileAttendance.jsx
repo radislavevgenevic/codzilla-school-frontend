@@ -79,8 +79,12 @@ export default function ProfileAttendance() {
           <strong>{stats.present || 0}</strong>
         </article>
         <article>
-          <span>{t("profile.absent")}</span>
-          <strong>{stats.absent || 0}</strong>
+          <span>{t("profile.absentJustified")}</span>
+          <strong>{stats.absent_justified || 0}</strong>
+        </article>
+        <article>
+          <span>{t("profile.absentUnjustified")}</span>
+          <strong>{stats.absent_unjustified || 0}</strong>
         </article>
         <article>
           <span>{t("profile.late")}</span>

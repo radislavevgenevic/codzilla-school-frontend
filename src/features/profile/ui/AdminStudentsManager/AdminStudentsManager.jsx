@@ -20,6 +20,7 @@ const statusOptions = [
 export default function AdminStudentsManager({ enabled, onCreated }) {
   const { t } = useI18n();
   const {
+    students,
     form,
     loading,
     saving,
@@ -30,7 +31,9 @@ export default function AdminStudentsManager({ enabled, onCreated }) {
     groupOptions,
     setField,
     resetForm,
+    editStudent,
     saveStudent,
+    deleteStudent,
   } = useAdminStudentsManager(enabled, onCreated);
 
   if (!enabled) {
@@ -45,7 +48,7 @@ export default function AdminStudentsManager({ enabled, onCreated }) {
           <h2>{t("profile.newStudent")}</h2>
         </div>
         <button type="button" onClick={resetForm}>
-          {t("profile.clear")}
+          {form.id ? t("profile.newStudent") : t("profile.clear")}
         </button>
       </div>
 
@@ -80,6 +83,7 @@ export default function AdminStudentsManager({ enabled, onCreated }) {
             value={form.group_id}
             onChange={(event) => setField("group_id", event.target.value)}
           >
+            <option value="">{t("profile.noGroup")}</option>
             {groupOptions.map((group) => (
               <option key={group.value} value={group.value}>
                 {group.label}
@@ -147,12 +151,47 @@ export default function AdminStudentsManager({ enabled, onCreated }) {
           type="submit"
           disabled={saving || loading || !parentOptions.length}
         >
-          {t("profile.createAndAdd")}
+          {form.id ? t("profile.save") : t("profile.createAndAdd")}
         </button>
       </form>
 
       {message ? <div className={styles.message}>{message}</div> : null}
       {error ? <div className={styles.error}>{error}</div> : null}
+
+      <div className={styles.list}>
+        {students.length ? (
+          students.map((student) => (
+            <div className={styles.row} key={student.id}>
+              <div>
+                <strong>{student.full_name}</strong>
+                <span>
+                  {student.parent?.name || t("profile.parent")} -{" "}
+                  {student.current_group?.name || t("profile.noGroup")} -{" "}
+                  {student.status_text || student.status}
+                </span>
+              </div>
+              <div className={styles.actions}>
+                <button type="button" onClick={() => editStudent(student)}>
+                  {t("profile.edit")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (confirm(t("profile.confirmDelete"))) {
+                      deleteStudent(student.id);
+                    }
+                  }}
+                  disabled={saving}
+                >
+                  {t("profile.delete")}
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className={styles.empty}>{t("profile.studentsEmpty")}</div>
+        )}
+      </div>
     </article>
   );
 }

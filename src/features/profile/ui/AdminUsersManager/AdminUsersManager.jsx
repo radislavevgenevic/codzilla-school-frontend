@@ -11,7 +11,14 @@ const roleOptions = [
   { value: "admin", labelKey: "profile.adminTeacher" },
 ];
 
-export default function AdminUsersManager({ enabled }) {
+export default function AdminUsersManager({
+  enabled,
+  roleFilter,
+  lockedRole,
+  titleKey = "profile.users",
+  newButtonKey = "profile.newUser",
+  emptyKey = "profile.usersEmpty",
+}) {
   const { t } = useI18n();
   const {
     users,
@@ -25,7 +32,7 @@ export default function AdminUsersManager({ enabled }) {
     editUser,
     saveUser,
     deleteUser,
-  } = useAdminUsersManager(enabled);
+  } = useAdminUsersManager(enabled, { roleFilter, lockedRole });
 
   if (!enabled) {
     return null;
@@ -36,10 +43,10 @@ export default function AdminUsersManager({ enabled }) {
       <div className={styles.header}>
         <div>
           <span>{t("profile.sectionAdmin")}</span>
-          <h2>{t("profile.users")}</h2>
+          <h2>{t(titleKey)}</h2>
         </div>
         <button type="button" onClick={resetForm}>
-          {t("profile.newUser")}
+          {t(newButtonKey)}
         </button>
       </div>
 
@@ -71,19 +78,21 @@ export default function AdminUsersManager({ enabled }) {
           />
         </label>
 
-        <label>
-          {t("profile.role")}
-          <ProfileSelect
-            value={form.role}
-            onChange={(event) => setField("role", event.target.value)}
-          >
-            {roleOptions.map((role) => (
-              <option key={role.value} value={role.value}>
-                {t(role.labelKey)}
-              </option>
-            ))}
-          </ProfileSelect>
-        </label>
+        {lockedRole ? null : (
+          <label>
+            {t("profile.role")}
+            <ProfileSelect
+              value={form.role}
+              onChange={(event) => setField("role", event.target.value)}
+            >
+              {roleOptions.map((role) => (
+                <option key={role.value} value={role.value}>
+                  {t(role.labelKey)}
+                </option>
+              ))}
+            </ProfileSelect>
+          </label>
+        )}
 
         <label>
           {t("profile.password")}
@@ -144,7 +153,7 @@ export default function AdminUsersManager({ enabled }) {
             </div>
           ))
         ) : (
-          <div className={styles.empty}>{t("profile.usersEmpty")}</div>
+          <div className={styles.empty}>{t(emptyKey)}</div>
         )}
       </div>
     </article>

@@ -8,8 +8,9 @@ import { useI18n } from "@/shared/config/i18n";
 
 const statuses = [
   { value: "present", labelKey: "profile.present" },
-  { value: "absent", labelKey: "profile.absent" },
   { value: "late", labelKey: "profile.late" },
+  { value: "absent_justified", labelKey: "profile.absentJustified" },
+  { value: "absent_unjustified", labelKey: "profile.absentUnjustified" },
 ];
 
 export default function AttendanceMarker({ enabled }) {
