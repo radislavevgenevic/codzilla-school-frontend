@@ -92,16 +92,16 @@ export default function AdminReportsPage() {
     ).length;
 
     return [
-      { label: "Ученики", value: state.publicStats?.total_students || state.students.length },
-      { label: "Родители", value: parents },
-      { label: "Преподаватели", value: state.teachers.length || state.publicStats?.total_teachers },
-      { label: "Администраторы", value: admins },
-      { label: "Курсы", value: state.publicStats?.total_courses || state.courses.length },
-      { label: "Активные группы", value: activeGroups },
-      { label: "Абонементы", value: state.subscriptions.length },
-      { label: "Активные абонементы", value: activeSubscriptions },
+      { label: t("profile.students"), value: state.publicStats?.total_students || state.students.length },
+      { label: t("profile.parents"), value: parents },
+      { label: t("profile.teachers"), value: state.teachers.length || state.publicStats?.total_teachers },
+      { label: t("profile.admins"), value: admins },
+      { label: t("profile.courses"), value: state.publicStats?.total_courses || state.courses.length },
+      { label: t("profile.activeGroups"), value: activeGroups },
+      { label: t("profile.subscriptions"), value: state.subscriptions.length },
+      { label: t("profile.activeSubscriptions"), value: activeSubscriptions },
     ];
-  }, [state]);
+  }, [state, t]);
 
   if (authLoading) {
     return <div className={styles.status}>{t("profile.loadingAdmin")}</div>;
@@ -126,8 +126,8 @@ export default function AdminReportsPage() {
       <article className={styles.panel}>
         <div className={styles.panelHeader}>
           <div>
-            <span>Сводка</span>
-            <h2>Основные показатели</h2>
+            <span>{t("profile.summary")}</span>
+            <h2>{t("profile.mainMetrics")}</h2>
           </div>
         </div>
 
@@ -148,15 +148,15 @@ export default function AdminReportsPage() {
       <article className={styles.panel}>
         <div className={styles.panelHeader}>
           <div>
-            <span>Контроль</span>
-            <h2>Разделы для проверки</h2>
+            <span>{t("profile.control")}</span>
+            <h2>{t("profile.sectionsToCheck")}</h2>
           </div>
         </div>
         <div className={styles.meta}>
-          <span>Ученики: список, редактирование, привязка к родителю, курсу и группе</span>
-          <span>Преподаватели: ставка, курсы, группы и доступ к личному кабинету</span>
-          <span>Абонементы: срок действия, остаток дней и история продлений</span>
-          <span>Посещаемость: уважительные и неуважительные пропуски</span>
+          <span>{t("profile.checkStudents")}</span>
+          <span>{t("profile.checkTeachers")}</span>
+          <span>{t("profile.checkSubscriptions")}</span>
+          <span>{t("profile.checkAttendance")}</span>
         </div>
       </article>
     </section>

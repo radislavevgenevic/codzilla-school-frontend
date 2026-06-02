@@ -18,11 +18,11 @@ const emptyForm = {
   notes: '',
 };
 
-const statusLabels = {
-  active: 'Активный',
-  paused: 'Приостановлен',
-  cancelled: 'Отменен',
-  expired: 'Истек',
+const statusKeys = {
+  active: 'profile.activeOne',
+  paused: 'profile.paused',
+  cancelled: 'profile.cancelled',
+  expired: 'profile.expired',
 };
 
 export default function AdminSubscriptionsPage() {
@@ -128,10 +128,10 @@ export default function AdminSubscriptionsPage() {
 
       if (form.id) {
         await profileApi.updateAdminSubscription(form.id, payload);
-        setMessage('Абонемент обновлен');
+        setMessage(t('profile.subscriptionUpdated'));
       } else {
         await profileApi.createAdminSubscription(payload);
-        setMessage('Абонемент создан');
+        setMessage(t('profile.subscriptionCreated'));
       }
 
       resetForm();
@@ -154,7 +154,7 @@ export default function AdminSubscriptionsPage() {
 
     try {
       await profileApi.deleteAdminSubscription(subscriptionId);
-      setMessage('Абонемент удален');
+      setMessage(t('profile.subscriptionDeleted'));
       await loadData();
     } catch (requestError) {
       setError(requestError.message);
@@ -179,7 +179,7 @@ export default function AdminSubscriptionsPage() {
         days: Number(extendForm.days),
         reason: extendForm.reason || null,
       });
-      setMessage('Абонемент продлен');
+      setMessage(t('profile.subscriptionExtended'));
       setExtendForm((current) => ({ ...current, days: 1, reason: '' }));
       await loadData();
     } catch (requestError) {
@@ -203,7 +203,7 @@ export default function AdminSubscriptionsPage() {
         <div>
           <span>{t('profile.sectionAdmin')}</span>
           <h1>{t('profile.subscriptions')}</h1>
-          <p>Создание, редактирование, продление и удаление абонементов учеников.</p>
+          <p>{t('profile.subscriptionsDescription')}</p>
         </div>
       </div>
 
@@ -213,17 +213,17 @@ export default function AdminSubscriptionsPage() {
       <article className={styles.panel}>
         <div className={styles.panelHeader}>
           <div>
-            <span>Управление</span>
-            <h2>{form.id ? 'Редактировать абонемент' : 'Новый абонемент'}</h2>
+            <span>{t('profile.management')}</span>
+            <h2>{form.id ? t('profile.editSubscription') : t('profile.newSubscription')}</h2>
           </div>
           <button className={styles.secondaryButton} type="button" onClick={resetForm}>
-            {form.id ? 'Новый абонемент' : t('profile.clear')}
+            {form.id ? t('profile.newSubscription') : t('profile.clear')}
           </button>
         </div>
 
         <form className={styles.form} onSubmit={saveSubscription}>
           <label>
-            Ученик
+            {t('profile.student')}
             <select
               required
               value={form.student_id}
@@ -237,7 +237,7 @@ export default function AdminSubscriptionsPage() {
             </select>
           </label>
           <label>
-            Название
+            {t('profile.titleField')}
             <input
               required
               value={form.name}
@@ -245,20 +245,20 @@ export default function AdminSubscriptionsPage() {
             />
           </label>
           <label>
-            Статус
+            {t('profile.status')}
             <select
               value={form.status}
               onChange={(event) => setField('status', event.target.value)}
             >
-              {Object.entries(statusLabels).map(([value, label]) => (
+              {Object.entries(statusKeys).map(([value, labelKey]) => (
                 <option key={value} value={value}>
-                  {label}
+                  {t(labelKey)}
                 </option>
               ))}
             </select>
           </label>
           <label>
-            Дата начала
+            {t('profile.startDate')}
             <input
               required
               type="date"
@@ -267,7 +267,7 @@ export default function AdminSubscriptionsPage() {
             />
           </label>
           <label>
-            Дата окончания
+            {t('profile.endDate')}
             <input
               required
               type="date"
@@ -276,7 +276,7 @@ export default function AdminSubscriptionsPage() {
             />
           </label>
           <label className={styles.wide}>
-            Заметки
+            {t('profile.notes')}
             <textarea
               value={form.notes}
               onChange={(event) => setField('notes', event.target.value)}
@@ -295,13 +295,13 @@ export default function AdminSubscriptionsPage() {
       <article className={styles.panel}>
         <div className={styles.panelHeader}>
           <div>
-            <span>Продление</span>
-            <h2>Продлить абонемент</h2>
+            <span>{t('profile.extension')}</span>
+            <h2>{t('profile.extendSubscription')}</h2>
           </div>
         </div>
         <form className={styles.form} onSubmit={extendSubscription}>
           <label>
-            Абонемент
+            {t('profile.subscription')}
             <select
               value={extendForm.subscription_id}
               onChange={(event) =>
@@ -313,13 +313,13 @@ export default function AdminSubscriptionsPage() {
             >
               {subscriptions.map((subscription) => (
                 <option key={subscription.id} value={subscription.id}>
-                  {subscription.student?.full_name || 'Ученик'} - {subscription.name}
+                  {subscription.student?.full_name || t('profile.student')} - {subscription.name}
                 </option>
               ))}
             </select>
           </label>
           <label>
-            Дней
+            {t('profile.days')}
             <input
               min="1"
               max="365"
@@ -332,7 +332,7 @@ export default function AdminSubscriptionsPage() {
             />
           </label>
           <label>
-            Причина
+            {t('profile.reason')}
             <input
               value={extendForm.reason}
               onChange={(event) =>
@@ -345,13 +345,13 @@ export default function AdminSubscriptionsPage() {
             type="submit"
             disabled={saving || !extendForm.subscription_id}
           >
-            Продлить
+            {t('profile.extend')}
           </button>
         </form>
         {selectedSubscription ? (
           <div className={styles.meta}>
-            <span>Текущая дата окончания: {selectedSubscription.end_date}</span>
-            <span>Осталось дней: {selectedSubscription.remaining_days}</span>
+            <span>{t('profile.currentEndDate')}: {selectedSubscription.end_date}</span>
+            <span>{t('profile.daysLeft')}: {selectedSubscription.remaining_days}</span>
           </div>
         ) : null}
       </article>
@@ -359,8 +359,8 @@ export default function AdminSubscriptionsPage() {
       <article className={styles.panel}>
         <div className={styles.panelHeader}>
           <div>
-            <span>Список</span>
-            <h2>Абонементы учеников</h2>
+            <span>{t('profile.list')}</span>
+            <h2>{t('profile.studentSubscriptions')}</h2>
           </div>
         </div>
 
@@ -372,18 +372,18 @@ export default function AdminSubscriptionsPage() {
               <div className={styles.row} key={subscription.id}>
                 <div>
                   <strong>
-                    {subscription.student?.full_name || 'Ученик'} - {subscription.name}
+                    {subscription.student?.full_name || t('profile.student')} - {subscription.name}
                   </strong>
                   <span>
                     {subscription.start_date} - {subscription.end_date} -{' '}
-                    {subscription.status_text || statusLabels[subscription.effective_status]} -{' '}
-                    осталось {subscription.remaining_days} дн.
+                    {subscription.status_text || t(statusKeys[subscription.effective_status] || 'profile.status')} -{' '}
+                    {t('profile.daysLeftLower')} {subscription.remaining_days} {t('profile.daysShort')}
                   </span>
                   {subscription.extensions?.length ? (
                     <div className={styles.meta}>
                       {subscription.extensions.map((extension) => (
                         <span key={extension.id}>
-                          +{extension.days} дн. до {extension.new_end_date}
+                          +{extension.days} {t('profile.daysShort')} {t('profile.until')} {extension.new_end_date}
                         </span>
                       ))}
                     </div>
@@ -409,7 +409,7 @@ export default function AdminSubscriptionsPage() {
               </div>
             ))
           ) : (
-            <div className={styles.empty}>Абонементы пока не созданы.</div>
+            <div className={styles.empty}>{t('profile.subscriptionsNotCreated')}</div>
           )}
         </div>
       </article>

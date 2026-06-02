@@ -7,8 +7,8 @@ import ProfileSelect from "../ProfileSelect/ProfileSelect";
 import { useI18n } from "@/shared/config/i18n";
 
 const statuses = [
-  { value: "present", labelKey: "profile.present" },
-  { value: "late", labelKey: "profile.late" },
+  { value: "present", labelKey: "profile.statusPresent" },
+  { value: "late", labelKey: "profile.statusLate" },
   { value: "absent_justified", labelKey: "profile.absentJustified" },
   { value: "absent_unjustified", labelKey: "profile.absentUnjustified" },
 ];

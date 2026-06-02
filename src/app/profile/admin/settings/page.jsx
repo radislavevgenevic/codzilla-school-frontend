@@ -92,7 +92,7 @@ export default function AdminSettingsPage() {
         telegram_recipient: "",
         resolve_telegram_chat: false,
       });
-      setMessage(response?.message || "Настройки сохранены");
+      setMessage(response?.message || t("profile.settingsSaved"));
     } catch (requestError) {
       setError(requestError.message);
     } finally {
@@ -124,7 +124,7 @@ export default function AdminSettingsPage() {
       <article className={styles.panel}>
         <div className={styles.panelHeader}>
           <div>
-            <span>Уведомления</span>
+            <span>{t("profile.notifications")}</span>
             <h2>Telegram и email</h2>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default function AdminSettingsPage() {
         ) : (
           <form className={styles.form} onSubmit={saveSettings}>
             <label>
-              Email для уведомлений
+              {t("profile.notificationEmail")}
               <input
                 type="email"
                 value={form.email}
@@ -158,7 +158,7 @@ export default function AdminSettingsPage() {
               />
             </label>
             <label>
-              Username или chat_id
+              {t("profile.telegramRecipient")}
               <input
                 value={form.telegram_recipient}
                 onChange={(event) =>
@@ -174,7 +174,7 @@ export default function AdminSettingsPage() {
                   setField("resolve_telegram_chat", event.target.checked)
                 }
               />
-              Найти chat_id автоматически
+              {t("profile.resolveTelegramChat")}
             </label>
             <button className={styles.button} type="submit" disabled={saving}>
               {t("profile.save")}

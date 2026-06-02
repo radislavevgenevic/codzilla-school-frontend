@@ -45,7 +45,7 @@ export default function ParentSubscriptionsPage() {
   }
 
   if (!user || user.role !== 'parent') {
-    return <div className={styles.status}>Раздел доступен только родителю.</div>;
+    return <div className={styles.status}>{t('profile.parentOnly')}</div>;
   }
 
   return (
@@ -54,7 +54,7 @@ export default function ParentSubscriptionsPage() {
         <div>
           <span>{t('profile.sectionProfile')}</span>
           <h1>{t('profile.subscriptions')}</h1>
-          <p>Активные абонементы, даты окончания, остаток дней и история продлений.</p>
+          <p>{t('profile.parentSubscriptionsDescription')}</p>
         </div>
       </div>
 
@@ -63,8 +63,8 @@ export default function ParentSubscriptionsPage() {
       <article className={styles.panel}>
         <div className={styles.panelHeader}>
           <div>
-            <span>Активные</span>
-            <h2>Текущие абонементы</h2>
+            <span>{t('profile.active')}</span>
+            <h2>{t('profile.currentSubscriptions')}</h2>
           </div>
         </div>
 
@@ -77,7 +77,7 @@ export default function ParentSubscriptionsPage() {
                 <span>{subscription.student?.full_name || t('profile.student')}</span>
                 <strong>{subscription.name}</strong>
                 <p>
-                  До {subscription.end_date}. Осталось {subscription.remaining_days} дн.
+                  {t('profile.until')} {subscription.end_date}. {t('profile.daysLeft')}: {subscription.remaining_days} {t('profile.daysShort')}
                 </p>
                 <div className={styles.meta}>
                   <span>{subscription.status_text}</span>
@@ -86,7 +86,7 @@ export default function ParentSubscriptionsPage() {
               </div>
             ))
           ) : (
-            <div className={styles.empty}>Активных абонементов пока нет.</div>
+            <div className={styles.empty}>{t('profile.activeSubscriptionsEmpty')}</div>
           )}
         </div>
       </article>
@@ -94,8 +94,8 @@ export default function ParentSubscriptionsPage() {
       <article className={styles.panel}>
         <div className={styles.panelHeader}>
           <div>
-            <span>История</span>
-            <h2>Все абонементы и продления</h2>
+            <span>{t('profile.history')}</span>
+            <h2>{t('profile.allSubscriptionsAndExtensions')}</h2>
           </div>
         </div>
 
@@ -112,13 +112,13 @@ export default function ParentSubscriptionsPage() {
                   </strong>
                   <span>
                     {subscription.start_date} - {subscription.end_date} -{' '}
-                    {subscription.status_text} - осталось {subscription.remaining_days} дн.
+                    {subscription.status_text} - {t('profile.daysLeftLower')} {subscription.remaining_days} {t('profile.daysShort')}
                   </span>
                   {subscription.extensions?.length ? (
                     <div className={styles.meta}>
                       {subscription.extensions.map((extension) => (
                         <span key={extension.id}>
-                          +{extension.days} дн. - {extension.reason || 'Продление'} - до{' '}
+                          +{extension.days} {t('profile.daysShort')} - {extension.reason || t('profile.extension')} - {t('profile.until')}{' '}
                           {extension.new_end_date}
                         </span>
                       ))}
@@ -128,7 +128,7 @@ export default function ParentSubscriptionsPage() {
               </div>
             ))
           ) : (
-            <div className={styles.empty}>Абонементы пока не найдены.</div>
+            <div className={styles.empty}>{t('profile.subscriptionsEmpty')}</div>
           )}
         </div>
       </article>
