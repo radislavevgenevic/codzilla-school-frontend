@@ -125,7 +125,7 @@ export default function AdminSettingsPage() {
         <div className={styles.panelHeader}>
           <div>
             <span>{t("profile.notifications")}</span>
-            <h2>Telegram и email</h2>
+            <h2>{t("profile.telegramAndEmail")}</h2>
           </div>
         </div>
 
