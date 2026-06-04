@@ -112,14 +112,12 @@ export default function PageContent() {
               <Box className={styles.infoText}>
                 <h4>{t("about.phoneTitle")}</h4>
                 <p>
-                  +7 (707) 123 45 67
-                  <br />
-                  +7 (707) 098 76 54
+                  +7 (700) 209 45 40
                 </p>
               </Box>
             </Box>
 
-            <Divider orientation="horizontal" variant="fullWidth" flexItem />
+            {/* <Divider orientation="horizontal" variant="fullWidth" flexItem />
 
             <Box className={styles.infoItem}>
               <Image
@@ -135,8 +133,8 @@ export default function PageContent() {
                   <br />
                   droneschool@email.ru
                 </p>
-              </Box>
-            </Box>
+              </Box> */}
+            {/* </Box> */}
           </Box>
           <Box className={styles.map}>
             <div style={{ position: "relative", overflow: "hidden" }}>

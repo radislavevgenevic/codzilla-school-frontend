@@ -18,7 +18,7 @@ export default function Footer() {
         </div>
         <div className={style.linksBox}>
           <Box className={style.links + " flex row ai-center gap-10"}>
-            <a href={"#"} target="_blank" rel="noopener noreferrer">
+            <a href={"https://www.instagram.com/codzilla_school/"} target="_blank" rel="noopener noreferrer">
               <Image
                 src={"/icons/social/inst.svg"}
                 alt={"inst"}
@@ -26,15 +26,15 @@ export default function Footer() {
                 height={40}
               />
             </a>
-            <a href={"#"} target="_blank" rel="noopener noreferrer">
+            <a href={"https://wa.me/77002094540"} target="_blank" rel="noopener noreferrer">
               <Image
-                src={"/icons/social/tiktok.svg"}
-                alt={"tiktok"}
+                src={"/icons/social/whatsapp.svg"}
+                alt={"whatsapp"}
                 width={40}
                 height={40}
               />
             </a>
-            <a href={"#"} target="_blank" rel="noopener noreferrer">
+            <a href="tel:+77002094540" target="_blank" rel="noopener noreferrer">
               <Image
                 src={"/icons/social/phone.svg"}
                 alt={"phone"}
