@@ -1,10 +1,8 @@
 'use client';
 
 import { useAuth } from '@/hooks/useAuth';
-import { API_URL } from '@/shared/config/api';
 import { getCollectionData, profileApi } from '@/features/profile/api/profileApi';
 import { useI18n } from '@/shared/config/i18n';
-import { getCookie } from 'cookies-next';
 import { useEffect, useState } from 'react';
 import styles from '../../ProfileWorkspaces.module.css';
 
@@ -16,21 +14,6 @@ const emptyForm = {
   bio: '',
   password: '',
 };
-
-async function readApiResponse(response) {
-  const contentType = response.headers.get('content-type') || '';
-
-  if (contentType.includes('application/json')) {
-    return response.json();
-  }
-
-  const text = await response.text();
-  return {
-    message: text.startsWith('<!DOCTYPE')
-      ? 'Server returned an HTML error page instead of JSON.'
-      : text,
-  };
-}
 
 export default function AdminTeachersPage() {
   const { user, loading: authLoading } = useAuth();
@@ -143,11 +126,6 @@ export default function AdminTeachersPage() {
     setMessage(null);
 
     try {
-      const token = getCookie('access_token');
-      const url = editingTeacher
-        ? `${API_URL}/api/v1/admin/teachers/${editingTeacher.id}`
-        : `${API_URL}/api/v1/admin/teachers`;
-      const method = editingTeacher ? 'PUT' : 'POST';
       const payload = { ...formData };
 
       if (editingTeacher && !payload.password) {
@@ -158,18 +136,10 @@ export default function AdminTeachersPage() {
         payload.password_confirmation = payload.password;
       }
 
-      const response = await fetch(url, {
-        method,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-      const data = await readApiResponse(response);
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to save teacher');
+      if (editingTeacher) {
+        await profileApi.updateAdminTeacher(editingTeacher.id, payload);
+      } else {
+        await profileApi.createAdminTeacher(payload);
       }
 
       resetForm();
@@ -192,19 +162,7 @@ export default function AdminTeachersPage() {
     setMessage(null);
 
     try {
-      const token = getCookie('access_token');
-      const response = await fetch(`${API_URL}/api/v1/admin/teachers/${teacherId}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        const data = await readApiResponse(response);
-        throw new Error(data.message || 'Failed to delete teacher');
-      }
-
+      await profileApi.deleteAdminTeacher(teacherId);
       await loadData();
     } catch (err) {
       setError(err.message);

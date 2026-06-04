@@ -85,6 +85,7 @@ export default function RegisterForm({ onSuccess }) {
       const serverMessage =
         error?.errors?.name?.[0] ||
         error?.errors?.email?.[0] ||
+        error?.errors?.phone?.[0] ||
         error?.errors?.password?.[0] ||
         error?.errors?.password_confirmation?.[0] ||
         error?.message ||

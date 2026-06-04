@@ -14,8 +14,9 @@ export const getStudentGroups = (student) =>
   student?.groups_list || getNestedCollection(student?.groups);
 
 export const roleLabels = {
-  admin: "Администратор / учитель",
+  admin: "Администратор",
   parent: "Родитель",
+  teacher: "Учитель",
 };
 
 export const studentStatusLabels = {

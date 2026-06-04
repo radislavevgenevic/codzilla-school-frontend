@@ -13,7 +13,7 @@ const isProtectedPath = (pathname) => {
   return protectedPaths.some((path) => pathname === path || pathname.startsWith(`${path}/`));
 };
 
-export function middleware(request) {
+export function proxy(request) {
   const { pathname } = request.nextUrl;
 
   if (!isProtectedPath(pathname)) {

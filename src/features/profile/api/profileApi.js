@@ -14,6 +14,7 @@ export const PROFILE_ENDPOINTS = {
   adminTeachers: "admin/teachers",
   adminSubscriptions: "admin/subscriptions?per_page=100",
   adminNotificationSettings: "admin/notification-settings",
+  adminFinancialReport: "admin/reports/financial",
   parentSubscriptions: "parent/subscriptions",
   parentChildren: "parent/children",
 };
@@ -121,6 +122,10 @@ export const profileApi = {
     }),
   getAdminLessons: () => profileRequest(PROFILE_ENDPOINTS.adminLessons),
   getAdminTeachers: () => profileRequest(PROFILE_ENDPOINTS.adminTeachers),
+  getAdminFinancialReport: (params = {}) => {
+    const query = new URLSearchParams(params).toString();
+    return profileRequest(`${PROFILE_ENDPOINTS.adminFinancialReport}${query ? `?${query}` : ""}`);
+  },
   getAdminTeacher: (teacherId) => profileRequest(`admin/teachers/${teacherId}`),
   createAdminTeacher: (payload) =>
     profileRequest("admin/teachers", {
