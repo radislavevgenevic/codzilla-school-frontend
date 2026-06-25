@@ -5,6 +5,14 @@ import React from "react";
 import styles from "./CourseCardsBlock.module.css";
 import { useI18n } from "@/shared/config/i18n";
 
+const selectMenuProps = {
+  disableScrollLock: true,
+  sx: {
+    "& .MuiMenuItem-root": { fontWeight: 500 },
+    "& .MuiMenuItem-root.Mui-selected": { backgroundColor: "#eef2fe" },
+  },
+};
+
 export default function CourseFilters({ age, direction, setAge, setDirection }) {
   const { t } = useI18n();
   const handleChangeAge = (event) => setAge(event.target.value);
@@ -30,12 +38,7 @@ export default function CourseFilters({ age, direction, setAge, setDirection }) 
           label={t("courses.filters.age")}
           onChange={handleChangeAge}
           color="blue"
-          MenuProps={{
-            sx: {
-              "& .MuiMenuItem-root": { fontWeight: 500 },
-              "& .MuiMenuItem-root.Mui-selected": { backgroundColor: "#eef2fe" },
-            },
-          }}
+          MenuProps={selectMenuProps}
         >
           <MenuItem color="blue" value={""}>
             {t("courses.filters.notSelected")}
@@ -73,12 +76,7 @@ export default function CourseFilters({ age, direction, setAge, setDirection }) 
           label={t("courses.filters.direction")}
           onChange={handleChangeDirection}
           color="blue"
-          MenuProps={{
-            sx: {
-              "& .MuiMenuItem-root": { fontWeight: 500 },
-              "& .MuiMenuItem-root.Mui-selected": { backgroundColor: "#eef2fe" },
-            },
-          }}
+          MenuProps={selectMenuProps}
         >
           <MenuItem color="blue" value={""}>
             {t("courses.filters.notSelected")}

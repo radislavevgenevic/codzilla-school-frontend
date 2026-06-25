@@ -4,6 +4,7 @@ import { Children } from "react";
 import { MenuItem, Select } from "@mui/material";
 
 const menuProps = {
+  disableScrollLock: true,
   // PaperProps: {
     sx: {
       mt: 0.5,
