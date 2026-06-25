@@ -71,7 +71,9 @@ export default function CustomModal({
               pb: 1,
             }}
           >
-            <Box sx={{ color: "var(--secondary)", fontWeight: 700, fontSize: 18 }}>
+            <Box
+              sx={{ color: "var(--secondary)", fontWeight: 700, fontSize: 18 }}
+            >
               {title}
             </Box>
             <IconButton onClick={handleClose}>
@@ -85,6 +87,7 @@ export default function CustomModal({
         </Drawer>
       ) : (
         <Dialog
+          disableScrollLock={true}
           open={open}
           onClose={handleClose}
           sx={{
